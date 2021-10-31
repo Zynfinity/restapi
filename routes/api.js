@@ -12,12 +12,9 @@ let fs = require('fs')
 let fetch = require('node-fetch');
 let router = express.Router();
 let hxz = require('hxz-api')
-let nhentai = require('nhentai-js');
-let NanaAPI = require('nana-api')
 let scrapper = require('../lib/scraper/scraper')
 const dcanvas = require('discord-canvas')
 const canvac = require('canvacord')
-let nana = new NanaAPI()
 let {
 	tiktok,
 	pinterest,
