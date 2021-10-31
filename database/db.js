@@ -3,7 +3,7 @@ monk = require('monk'),
 { color } = require(__path + '/lib/color.js')
 
 // Connection URL
-let url = 'https://api-velgrynd.herokuapp.com';
+let url = 'mongodb+srv://restapi:ihsana12@cluster0.g3imt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 try {
 if(url == 'https://api-velgrynd.herokuapp.com') throw console.log(color('Cek konfigurasi database, var url belum diisi','red'));
 } catch (e) {
