@@ -120,6 +120,17 @@ router.get('/dddtik', async (req, res) => {
 		res.json(loghandler.error)
 	}
 })
+router.get('/rexdldown', async (req, res) => {
+	let url = req.query.url
+	if (!url) return res.json(loghandler.noturl)
+  if(!isUrl(url)) return res.json(loghandler.nurl)
+	try {
+		scrapper.rexdldown(url).then(resu => res.json(resu))
+	} catch (err) {
+		console.log(err)
+		res.json(loghandler.error)
+	}
+})
 router.get('/snapinsta', async (req, res) => {
 	let url = req.query.url
 	if (!url) return res.json(loghandler.noturl)
@@ -263,6 +274,15 @@ router.get('/android1', async (req, res) => {
     res.json(loghandler.error)
   }
 })
+router.get('/rexdl', async (req, res) => {
+	let query = req.query.query
+	if (!query) return res.json(loghandler.notquery)
+	try{
+    scrapper.rexdl(query).then(resu => resu.result != '' ? res.json(resu) : res.json(loghandler.error))
+  }catch{
+    res.json(loghandler.error)
+  }
+})
 router.get('/apkmody', async (req, res) => {
 	let query = req.query.query
 	if (!query) return res.json(loghandler.notquery)
@@ -277,6 +297,15 @@ router.get('/gore', async (req, res) => {
 	if (!query) return res.json(loghandler.notquery)
 	try{
     scrapper.searchgore(query).then(resu => res.json(resu))
+  }catch{
+    res.json(loghandler.error)
+  }
+})
+router.get('/chord', async (req, res) => {
+	let query = req.query.query
+	if (!query) return res.json(loghandler.notquery)
+	try{
+    scrapper.chord(query).then(resu => res.json(resu))
   }catch{
     res.json(loghandler.error)
   }
@@ -299,45 +328,6 @@ router.get('/google', async (req, res, next) => {
 			})
 	})
 })
-// Animanga
-/*router.get('/nhentai', async (req, res, next) => {
-	code = req.query.code
-	if (!code) return res.json({
-		message: 'masukan parameter Code'
-	})
-	result = await nhentai.getDoujin(code)
-	res.json({
-			status: 200,
-			creator: `${creator}`,
-			note: 'Jangan Di Tembak Bang',
-			result
-		})
-		.catch(e => {
-			res.json(loghandler.error)
-		})
-})
-router.get('/nHentaiSearch', async (req, res) => {
-	let query = req.query.query
-	let hasil = await nana.search(query)
-	let result = hasil.results
-	res.json({
-		status: 200,
-		creator: `${creator}`,
-		note: 'Jangan Di Tembak Bang',
-		result
-	})
-})
-router.get('/doujindesuSearch', async (req, res) => {
-	let query = req.query.query
-	let result = await doujindesu(query)
-	res.json({
-		status: 200,
-		creator: `${creator}`,
-		note: 'Jangan Di Tembak Bang',
-		result
-	})
-})
-*/
 router.get('/konachan', async (req, res) => {
 	let query = req.query.query
 	if (!query) return res.json(loghandler.notquery)
@@ -746,6 +736,25 @@ router.get('/surah', async (req, res) => {
   }
 })
 
+//other
+router.get('/jadwaltv', async(req, res) => {
+  channel = req.query.channel
+  if(!channel) return res.json(misparam('channel'))
+  try{
+    scrapper.jadwaltv(channel).then(resu => res.json(resu))
+  }catch{
+    res.json(loghandler.error)
+  }
+})
+router.get('/emoji', async(req, res) => {
+  emoji = req.query.emoji
+  if(!emoji) return res.json(misparam('emoji'))
+  try{
+    scrapper.emoji(emoji).then(resu => res.json(resu))
+  }catch{
+    res.json(loghandler.error)
+  }
+})
 
 router.get('/eval', async (req, res) => {
 	const util = require('util')
