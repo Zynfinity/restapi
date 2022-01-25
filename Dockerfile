@@ -8,7 +8,7 @@ RUN apt-get install yarn -y
 WORKDIR /app
 COPY . /app
 RUN npm install
-RUN yard add yt-search
+//RUN yard add yt-search
 RUN npm install -g forever
 CMD ["forever", "index.js"]
 EXPOSE 8080
