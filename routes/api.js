@@ -1,11 +1,5 @@
 __path = process.cwd()
 let express = require('express');
-let db = require(__path + '/database/db');
-try {
-	let zahirr = db.get("zahirr");
-} catch (e) {
-	console.log('')
-}
 let creator = "Fajar Ihsana"
 let axios = require('axios')
 let fs = require('fs')
