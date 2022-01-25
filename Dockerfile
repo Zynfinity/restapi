@@ -7,8 +7,6 @@ RUN apt-get install -y --no-install-recommends \
   sudo \
   imagemagick
 RUN pip install pillow
-RUN apt install yarn
-RUN yarn add yt-search
 RUN npm install -g npm@latest
 RUN npm install -g forever@latest
 
