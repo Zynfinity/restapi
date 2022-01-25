@@ -1,13 +1,19 @@
+FROM nikolaik/python-nodejs:latest
 
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install nodejs -y
-RUN apt-get install yarn -y
+RUN apt update -y
+RUN apt upgrade -y
+RUN apt-get install -y --no-install-recommends \
+  ffmpeg \
+  sudo \
+  imagemagick
+RUN pip install pillow
+RUN apt install yarn
+RUN yarn add yt-search
+RUN npm install -g npm@latest
+RUN npm install -g forever@latest
 
-WORKDIR /app
-COPY . /app
+WORKDIR /home/frmdev/frmdev
+COPY package.json .
 RUN npm install
-
-RUN npm install -g forever
+COPY . .
 CMD ["forever", "index.js"]
-EXPOSE 8080
