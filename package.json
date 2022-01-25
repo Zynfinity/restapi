@@ -49,8 +49,7 @@
     "qs": "^6.10.1",
     "ssl-express-www": "^3.0.7",
     "urlencode": "^1.1.0",
-    "util": "^0.12.4",
-    "youtubei.js": "^1.2.8-npm"
+    "util": "^0.12.4"
   },
   "homepage": "https://github.com/ultimareall/api-velgrynd#readme"
 }
