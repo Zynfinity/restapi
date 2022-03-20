@@ -775,6 +775,20 @@ router.get('/emoji', async(req, res) => {
     res.json(loghandler.error)
   }
 })
+router.get('/cekapikey', async(req, res) => {
+  apikey = req.query.apikey
+  if(!apikey) return res.json(misparam('sender'))
+  try{
+    const data = await db.collection('apikey').findOne({apikey: apikey})
+    if(data != null) return res.json({...data, status: true})
+    res.json({
+      status: false,
+      message: 'Apikey Invalid'
+    })
+  }catch(e){
+    res.json(e)
+  }
+})
 router.get('/getapikey', async(req, res) => {
   sender = req.query.sender
   if(!sender) return res.json(misparam('sender'))
