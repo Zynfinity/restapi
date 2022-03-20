@@ -62,6 +62,16 @@ function GenerateRandomChar() {
             var randomNumber = GenerateRandomNumber(0,chars.length - 1);
             return chars[randomNumber];
         }
+function GenerateSerialNumber(mask){
+            var serialNumber = "";
+            if(mask != null){
+                for(var i=0; i < mask.length; i++){
+                    var maskChar = mask[i];
+                    serialNumber += maskChar == "0" ? GenerateRandomChar() : maskChar;
+                }
+            }
+            return serialNumber;
+        }
 const isUrl = (url) => {
 	return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%+.~#?&/=]*)/, 'gi'))
 }
@@ -797,7 +807,7 @@ router.get('/getapikey', async(req, res) => {
     const data = await db.collection('apikey').findOne({id: sender})
     console.log('p')
     if(data != null) return res.json(data)
-    random = await GenerateRandomChar(0000000000000000000)
+    random = await GenerateSerialNumber("000000000000000000000000")
     console.log(random)
     await db.collection('apikey').insertOne({id: sender, apikey: random})
     res.json({
