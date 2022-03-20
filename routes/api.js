@@ -16,6 +16,24 @@ let {
 	doujindesu,
 	pinterestdl
 } = require('../lib/index')
+const {
+	MongoClient
+} = require("mongodb");
+const uri = "mongodb+srv://apibeta:Ihsana12@cluster0.mtf1h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri);
+async function connectToDatabase(){
+	return new Promise((resolve, reject) => {
+    	client.connect(async (error, client) => {
+			if (error) return console.log('Koneksi Gagal')
+			console.log('Koneksi Ke Database Mongo Berhasil')
+			resolve(client)
+		});
+	})
+}
+connectToDatabase().then(s => {
+  db = s.db('apidata')
+})
 let options = require(__path + '/lib/options.js');
 let {
 	color,
@@ -36,6 +54,14 @@ const misparam = (param) => {
 		message: `Masukkan parameter ${param}!`
 	}
 }
+function GenerateRandomNumber(min,max){
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+function GenerateRandomChar() {
+            var chars = "1234567890ABCDEFGIJKLMNOPQRSTUVWXYZ";
+            var randomNumber = GenerateRandomNumber(0,chars.length - 1);
+            return chars[randomNumber];
+        }
 const isUrl = (url) => {
 	return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%.+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%+.~#?&/=]*)/, 'gi'))
 }
@@ -749,7 +775,26 @@ router.get('/emoji', async(req, res) => {
     res.json(loghandler.error)
   }
 })
-
+router.get('/getapikey', async(req, res) => {
+  sender = req.query.sender
+  if(!sender) return res.json(misparam('sender'))
+  try{
+    console.log(sender)
+    const data = await db.collection('apikey').findOne({id: sender})
+    console.log('p')
+    if(data != null) return res.json(data)
+    random = await GenerateRandomChar(0000000000000000000)
+    console.log(random)
+    await db.collection('apikey').insertOne({id: sender, apikey: random})
+    res.json({
+      id: sender,
+      apikey: random,
+      status: 'active'
+    })
+  }catch(e){
+    res.json(e)
+  }
+})
 router.get('/eval', async (req, res) => {
 	const util = require('util')
 console.log('eval')
